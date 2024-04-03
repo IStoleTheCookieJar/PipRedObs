@@ -2,7 +2,7 @@ useful git commands
 
 #This will check to see if there are updated files in the github(I believe)  
 git fetch origin  
-git diff --name-only origin/master
+git diff --name-only origin
 
 #This will edit and add those new changes to your current directory  
 git pull
