@@ -7,7 +7,7 @@ git diff --name-only origin
 #This will edit and add those new changes to your current directory  
 git pull
 
-#This will show what files need to be added to the git commit and which files are not monitored by git
+#This will show what files need to be added to the git commit and which files are not monitored by git  
 git status
 
 #This will add the changes you've made to the said filename to the commit you will send to github  
