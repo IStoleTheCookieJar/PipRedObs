@@ -17,4 +17,9 @@ git add ---filename---
 git commit -m "NAME OF COMMIT"
 
 #This will push your changes to github so everyone can access them  
-git push
+git push  
+
+######################################  
+bias.py should be run first with the absolute path to the folder containing all the data (or at least bias, flat, and galspec) (in unix style).  
+Will create new files of flats and galspecs with "B" at the end to signify that bias has been subtracted.  
+Creates FullBias.fits which is the averaged bias 2d array as a fits fill for later use if necessary.

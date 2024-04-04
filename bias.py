@@ -30,33 +30,32 @@ bias_image_array = np.zeros((len(biasfiles),size[0],size[1]))
 
 #######Reading bias files and averaging###########
 for i in range(len(biasfiles)):
-  bias = fits.open(biasfiles[i])
-  bias_image = bias[0].data
-  bias_image_array[i] = bias_image
+    bias = fits.open(biasfiles[i])
+    bias_image = bias[0].data
+    bias_image = bias_image.astype(float)
+    bias_image_array[i] = bias_image
 
-bias_image_final = np.mean(bias_image_array,axis=0)
+bias_image_final = np.median(bias_image_array,axis=0)
 
 #######Subtracting from all use files and creating new ones##########
 for i in range(len(usefiles)):
-    if(usefiles[i][-6:] != "B.fits"):
+    if(usefiles[i][-6:] == "b.fits"):
         print(usefiles[i])
         current = fits.open(usefiles[i])
         current_image = current[0].data
         reduced = current_image-bias_image_final
-        temp = fits.PrimaryHDU(reduced)
-        temp.header = current[0].header
-        temp.writeto(usefiles[i][:-5]+"B.fits",overwrite=True)
+        temp = fits.HDUList([fits.PrimaryHDU(reduced)])
+        temp.writeto(usefiles[i][:-5]+".B.fits", overwrite=True)
 
 ########Subtracting from all flat files and creating new ones#########
 for i in range(len(flatfiles)):
-    if(flatfiles[i][-6:] != "B.fits"):
+    if(flatfiles[i][-6:] == "b.fits"):
         print(flatfiles[i])
         current = fits.open(flatfiles[i])
         current_image = current[0].data
         reduced = current_image-bias_image_final
-        temp = fits.PrimaryHDU(reduced)
-        temp.header = current[0].header
-        temp.writeto(flatfiles[i][:-5]+"B.fits",overwrite=True)
+        temp = fits.HDUList([fits.PrimaryHDU(reduced)])
+        temp.writeto(flatfiles[i][:-5]+".B.fits", overwrite=True)
 
 ###Creating Fits file##############
 hdu = fits.PrimaryHDU(bias_image_final)
