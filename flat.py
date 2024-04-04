@@ -38,9 +38,8 @@ for i in range(len(flatfiles)):
 
 flat_image_final = np.median(flat_image_array,axis=0)
 Iff = flat_image_final/np.median(flat_image_final)
-big = (Iff >= 0.01)
 small = (Iff < 0.01)
-Iff = Iff*big + small
+Iff[small] = float("NaN")
 
 #######Subtracting from all use files and creating new ones##########
 for i in range(len(usefiles)):
