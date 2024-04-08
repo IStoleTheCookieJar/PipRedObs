@@ -39,7 +39,7 @@ bias_image_final = np.median(bias_image_array,axis=0)
 
 #######Subtracting from all use files and creating new ones##########
 for i in range(len(usefiles)):
-    if(usefiles[i][-6:] == "b.fits"):
+    if(usefiles[i][-7:] == ".C.fits"):
         print(usefiles[i])
         current = fits.open(usefiles[i])
         current_image = current[0].data
