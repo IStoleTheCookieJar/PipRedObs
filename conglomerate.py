@@ -5,7 +5,11 @@ import glob
 import sys
 
 if(len(sys.argv)<2):
-    sys.exit("Not enough arguements, try 'py bias.py ~datadirectory~'")
+    sys.exit("Not enough arguements, try 'py conglomerate.py ~datadirectory~'")
+
+#Mac users should just be able to copy absolute path
+#Windows should change absolute paths to directories from C:\User\...\ to /Users/.../
+#In Kalvyn's case: /Users/Kalvyn/Desktop/Obs2/APO_Data/
 
 #####File finding############
 pathname = sys.argv[1]

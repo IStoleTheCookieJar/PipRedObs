@@ -8,7 +8,7 @@ import os
 ##This .py is defined to delete all edited and reduced fits files to make starting over easier
 
 if(len(sys.argv)<2):
-    sys.exit("Not enough arguements, try 'py bias.py ~datadirectory~'")
+    sys.exit("Not enough arguements, try 'py delete.py ~datadirectory~'")
 
 #####File finding############
 pathname = sys.argv[1]

@@ -8,18 +8,14 @@ import glob
 import sys
 
 if(len(sys.argv)<2):
-    sys.exit("Not enough arguements, try 'py bias.py ~datadirectory~'")
-
-#Mac users should just be able to copy absolute path
-#Windows should change absolute paths to directories from C:\User\...\ to /Users/.../
-#In Kalvyn's case: /Users/Kalvyn/Desktop/Obs2/APO_Data/
+    sys.exit("Not enough arguements, try 'py flat.py ~datadirectory~'")
 
 #####File finding############
 pathname = sys.argv[1]
-usefiles = glob.glob(pathname+"*galspec*")
+usefiles = glob.glob(pathname+"*galspec*.D.fits")
 if(len(usefiles) == 0):
     sys.exit("No galspec files found in chosen directory")
-flatfiles = glob.glob(pathname+"flat*.B*")
+flatfiles = glob.glob(pathname+"flat*.D*")
 if(len(flatfiles) == 0):
     sys.exit("No flat files found in chosen direcotry")
 
@@ -43,7 +39,7 @@ Iff[small] = 1
 
 #######Subtracting from all use files and creating new ones##########
 for i in range(len(usefiles)):
-    if(usefiles[i][-6:] == "B.fits"):
+    if(usefiles[i][-6:] == "D.fits"):
         print(usefiles[i])
         current = fits.open(usefiles[i])
         current_image = current[0].data

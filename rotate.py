@@ -5,15 +5,15 @@ import glob
 import sys
 
 if(len(sys.argv)<2):
-    sys.exit("Not enough arguements, try 'py bias.py ~datadirectory~'")
+    sys.exit("Not enough arguements, try 'py rotate.py ~datadirectory~'")
 
 
 #####File finding############
 pathname = sys.argv[1]
-usefiles = glob.glob(pathname+"*galspec*")
+usefiles = glob.glob(pathname+"*galspec*.F.fits")
 if(len(usefiles) == 0):
     sys.exit("No galspec files found in chosen directory")
-stdfiles = glob.glob(pathname+"std*")
+stdfiles = glob.glob(pathname+"std*.C.fits")
 if(len(stdfiles) == 0):
     sys.exit("No std files found in chosen direcotry")
 

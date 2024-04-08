@@ -6,19 +6,15 @@ import sys
 if(len(sys.argv)<2):
     sys.exit("Not enough arguements, try 'py bias.py ~datadirectory~'")
 
-#Mac users should just be able to copy absolute path
-#Windows should change absolute paths to directories from C:\User\...\ to /Users/.../
-#In Kalvyn's case: /Users/Kalvyn/Desktop/Obs2/APO_Data/
-
 #####File finding############
 pathname = sys.argv[1]
-biasfiles = glob.glob(pathname +"bias*")
+biasfiles = glob.glob(pathname +"bias*b.fits")
 if(len(biasfiles) == 0):
     sys.exit("No bias files found in chosen directory")
-usefiles = glob.glob(pathname+"*galspec*")
+usefiles = glob.glob(pathname+"*galspec*.C.fits")
 if(len(usefiles) == 0):
     sys.exit("No galspec files found in chosen directory")
-flatfiles = glob.glob(pathname+"flat*")
+flatfiles = glob.glob(pathname+"flat*b.fits")
 if(len(flatfiles) == 0):
     sys.exit("No flat files found in chosen direcotry")
 
@@ -43,8 +39,8 @@ for i in range(len(usefiles)):
         print(usefiles[i])
         current = fits.open(usefiles[i])
         current_image = current[0].data
-        reduced = current_image-bias_image_final
-        temp = fits.HDUList([fits.PrimaryHDU(reduced)])
+        current_image = current_image-bias_image_final
+        temp = fits.HDUList([fits.PrimaryHDU(current_image)])
         temp.writeto(usefiles[i][:-5]+".B.fits", overwrite=True)
 
 ########Subtracting from all flat files and creating new ones#########
@@ -53,8 +49,8 @@ for i in range(len(flatfiles)):
         print(flatfiles[i])
         current = fits.open(flatfiles[i])
         current_image = current[0].data
-        reduced = current_image-bias_image_final
-        temp = fits.HDUList([fits.PrimaryHDU(reduced)])
+        current_image = current_image-bias_image_final
+        temp = fits.HDUList([fits.PrimaryHDU(current_image)])
         temp.writeto(flatfiles[i][:-5]+".B.fits", overwrite=True)
 
 ###Creating Fits file##############
