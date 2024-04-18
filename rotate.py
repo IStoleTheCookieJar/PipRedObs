@@ -13,6 +13,7 @@ pathname = sys.argv[1]
 usefiles = glob.glob(pathname+"*galspec*.F.fits")
 if(len(usefiles) == 0):
     sys.exit("No galspec files found in chosen directory")
+
 stdfiles = glob.glob(pathname+"std*.F.fits")
 if(len(stdfiles) == 0):
     sys.exit("No std files found in chosen direcotry")
