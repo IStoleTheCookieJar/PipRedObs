@@ -17,6 +17,9 @@ if(len(usefiles) == 0):
 flatfiles = glob.glob(pathname+"flat*b.fits")
 if(len(flatfiles) == 0):
     sys.exit("No flat files found in chosen direcotry")
+stdfiles = glob.glob(pathname+"std*.C.fits")
+if(len(stdfiles) == 0):
+    sys.exit("No std files found in chosen directory")
 
 ####Opening vias files#######
 bias0 = fits.open(biasfiles[0])
@@ -52,6 +55,16 @@ for i in range(len(flatfiles)):
         current_image = current_image-bias_image_final
         temp = fits.HDUList([fits.PrimaryHDU(current_image)])
         temp.writeto(flatfiles[i][:-5]+".B.fits", overwrite=True)
+
+#########Std Files#########################
+for i in range(len(stdfiles)):
+    if(stdfiles[i][-7:] == ".C.fits"):
+        print(stdfiles[i])
+        current = fits.open(stdfiles[i])
+        current_image = current[0].data
+        current_image = current_image-bias_image_final
+        temp = fits.HDUList([fits.PrimaryHDU(current_image)])
+        temp.writeto(stdfiles[i][:-5]+".B.fits", overwrite=True)
 
 ###Creating Fits file##############
 hdu = fits.PrimaryHDU(bias_image_final)

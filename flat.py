@@ -18,6 +18,9 @@ if(len(usefiles) == 0):
 flatfiles = glob.glob(pathname+"flat*.D*")
 if(len(flatfiles) == 0):
     sys.exit("No flat files found in chosen direcotry")
+stdfiles = glob.glob(pathname+"std*.D.fits")
+if(len(stdfiles) == 0):
+    sys.exit("No std files found in chosen directory")
 
 ####Opening flat files#######
 flat0 = fits.open(flatfiles[0])
@@ -37,7 +40,7 @@ Iff = flat_image_final/np.median(flat_image_final)
 small = (Iff < 0.01)
 Iff[small] = 1
 
-#######Subtracting from all use files and creating new ones##########
+#######Dividing from all use files and creating new ones##########
 for i in range(len(usefiles)):
     if(usefiles[i][-6:] == "D.fits"):
         print(usefiles[i])
@@ -46,6 +49,16 @@ for i in range(len(usefiles)):
         reduced = current_image/Iff
         temp = fits.HDUList([fits.PrimaryHDU(reduced)])
         temp.writeto(usefiles[i][:-5]+".F.fits", overwrite=True)
+
+#######Dividing from all std files and creating new ones##########
+for i in range(len(stdfiles)):
+    if(stdfiles[i][-6:] == "D.fits"):
+        print(stdfiles[i])
+        current = fits.open(stdfiles[i])
+        current_image = current[0].data
+        reduced = current_image/Iff
+        temp = fits.HDUList([fits.PrimaryHDU(reduced)])
+        temp.writeto(stdfiles[i][:-5]+".F.fits", overwrite=True)
 
 
 ###Creating Fits file##############

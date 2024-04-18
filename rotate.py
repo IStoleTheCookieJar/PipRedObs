@@ -13,7 +13,7 @@ pathname = sys.argv[1]
 usefiles = glob.glob(pathname+"*galspec*.F.fits")
 if(len(usefiles) == 0):
     sys.exit("No galspec files found in chosen directory")
-stdfiles = glob.glob(pathname+"std*.C.fits")
+stdfiles = glob.glob(pathname+"std*.F.fits")
 if(len(stdfiles) == 0):
     sys.exit("No std files found in chosen direcotry")
 
@@ -35,11 +35,11 @@ for i in range(len(usefiles)):
         print("Saved {0}".format(usefiles[i].replace(".fits", ".R.fits")))
 
 
-#######Rotating all std files and creating new ones##########
-# for i in range(len(stdfiles)):
-#     if(usefiles[i][-6:] == "F.fits"):
-#         current = fits.open(usefiles[i])
-#         current[0].data = rotate(current[0].data, rotate_val, reshape=False)
-#         current[0].data = current[0].data[ycrop[0]:ycrop[1], xcrop[0]:xcrop[1]]
-#         current.writeto(usefiles[i].replace(".fits", ".R.fits"), overwrite=True)
-#         print("Saved {0}".format(usefiles[i].replace(".fits", ".R.fits")))
+######Rotating all std files and creating new ones##########
+for i in range(len(stdfiles)):
+    if(stdfiles[i][-6:] == "F.fits"):
+        current = fits.open(stdfiles[i])
+        current[0].data = rotate(current[0].data, rotate_val, reshape=False)
+        current[0].data = current[0].data[ycrop[0]:ycrop[1], xcrop[0]:xcrop[1]]
+        current.writeto(stdfiles[i].replace(".fits", ".R.fits"), overwrite=True)
+        print("Saved {0}".format(stdfiles[i].replace(".fits", ".R.fits")))

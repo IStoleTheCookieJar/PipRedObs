@@ -27,6 +27,9 @@ if(len(usefiles) == 0):
 flatfiles = glob.glob(pathname+"flat*.B.fits")
 if(len(flatfiles) == 0):
     sys.exit("No flat files found in chosen direcotry")
+stdfiles = glob.glob(pathname+"std*.B.fits")
+if(len(stdfiles) == 0):
+    sys.exit("No std files found in chosen directory")
 
 #######Subtracting darks from all use files and creating new ones##########
 for i in range(len(usefiles)):
@@ -51,3 +54,15 @@ for i in range(len(flatfiles)):
         current_image = current_image-dark
         temp = fits.HDUList([fits.PrimaryHDU(current_image)])
         temp.writeto(flatfiles[i][:-5]+".D.fits", overwrite=True)
+
+########Subtracting from all std files and creating new ones#########
+for i in range(len(stdfiles)):
+    if(stdfiles[i][-7:] == ".B.fits"):
+        print(stdfiles[i])
+        current = fits.open(stdfiles[i])
+        current_image = current[0].data
+        dark = current_image[x_lower:x_upper,y_lower:y_upper]
+        dark = np.median(dark)
+        current_image = current_image-dark
+        temp = fits.HDUList([fits.PrimaryHDU(current_image)])
+        temp.writeto(stdfiles[i][:-5]+".D.fits", overwrite=True)
